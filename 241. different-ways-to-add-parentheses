@@ -1,0 +1,23 @@
+class Solution:
+    def diffWaysToCompute(self, expression: str) -> List[int]:
+        result = []
+        
+        # Loop through each character in the expression
+        for i, char in enumerate(expression):
+            if char in '+-*':  # Check for operators
+                # Divide expression into two parts around the operator
+                left_results = self.diffWaysToCompute(expression[:i])
+                right_results = self.diffWaysToCompute(expression[i + 1:])
+                
+                # Compute all combinations of left and right results
+                for left in left_results:
+                    for right in right_results:
+                        if char == '+':
+                            result.append(left + right)
+                        elif char == '-':
+                            result.append(left - right)
+                        elif char == '*':
+                            result.append(left * right)
+        
+        # If result is empty, it means the expression is a single number
+        return result or [int(expression)]
