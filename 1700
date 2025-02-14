@@ -1,0 +1,22 @@
+def countStudents(students: list[int], sandwiches: list[int]) -> int:
+    from collections import deque
+    q = deque(students)  # Queue of students
+    sand_idx = 0  # Current sandwich index
+    
+    while q:
+        # Count how many students are unable to take the current sandwich
+        attempts = 0
+        n = len(q)
+        while attempts < n:
+            student = q.popleft()
+            if student == sandwiches[sand_idx]:
+                sand_idx += 1  # Student takes sandwich
+                break
+            else:
+                q.append(student)  # Student goes to the end
+                attempts += 1
+        
+        if attempts == n:  # No student took the sandwich
+            return n
+    
+    return 0
